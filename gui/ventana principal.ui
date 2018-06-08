@@ -23,9 +23,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>140</x>
       <y>10</y>
-      <width>281</width>
+      <width>301</width>
       <height>41</height>
      </rect>
     </property>
@@ -40,7 +40,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Sistema de Graficacion de senales</string>
+     <string>Sistema de Graficacion de señales</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -56,17 +56,17 @@
      <string>Pacientes</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="refrescarPacientes">
+   <widget class="QPushButton" name="actualizarPacientes">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
+      <y>270</y>
       <width>80</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Refrescar</string>
+     <string>Actualizar</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="tabla_pacientes">
@@ -100,12 +100,11 @@
      <bool>true</bool>
     </property>
     <property name="rowCount">
-     <number>6</number>
+     <number>5</number>
     </property>
     <property name="columnCount">
      <number>5</number>
     </property>
-    <row/>
     <row/>
     <row/>
     <row/>
@@ -144,7 +143,7 @@
      <x>0</x>
      <y>0</y>
      <width>552</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
@@ -157,20 +156,21 @@
      </property>
      <addaction name="actionCorrelacion"/>
      <addaction name="actionPeriodograma"/>
+     <addaction name="actionHistrograma"/>
+     <addaction name="actionSegmento"/>
     </widget>
     <addaction name="actionCrear_paciente"/>
-    <addaction name="actionAsignar_resultados"/>
+    <addaction name="actionEliminar_paciente"/>
+    <addaction name="separator"/>
     <addaction name="menuGraficas"/>
-    <addaction name="actionSalir"/>
+    <addaction name="separator"/>
+    <addaction name="actionSalir_2"/>
    </widget>
    <widget class="QMenu" name="menuConsultas">
     <property name="title">
      <string>Consultas</string>
     </property>
-    <addaction name="actionVer_paciente"/>
-    <addaction name="actionVer_resultados"/>
-    <addaction name="actionVer_Histograma"/>
-    <addaction name="actionVer_Segmento"/>
+    <addaction name="actionVer_historial"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuConsultas"/>
@@ -216,11 +216,6 @@
     <string>Ver paciente</string>
    </property>
   </action>
-  <action name="actionVer_resultados">
-   <property name="text">
-    <string>Ver resultados</string>
-   </property>
-  </action>
   <action name="actionSalir">
    <property name="text">
     <string>Salir</string>
@@ -234,6 +229,51 @@
   <action name="actionVer_Segmento">
    <property name="text">
     <string>ver Segmento</string>
+   </property>
+  </action>
+  <action name="actionHistrograma">
+   <property name="text">
+    <string>Histrograma</string>
+   </property>
+  </action>
+  <action name="actionSegmento">
+   <property name="text">
+    <string>Segmento</string>
+   </property>
+  </action>
+  <action name="actionSalir_2">
+   <property name="text">
+    <string>Salir</string>
+   </property>
+  </action>
+  <action name="actionEliminar_paciente">
+   <property name="text">
+    <string>Eliminar paciente</string>
+   </property>
+  </action>
+  <action name="actionCorrelacion_2">
+   <property name="text">
+    <string>Correlacion</string>
+   </property>
+  </action>
+  <action name="actionPeriodograma_2">
+   <property name="text">
+    <string>Periodograma</string>
+   </property>
+  </action>
+  <action name="actionHistrograma_2">
+   <property name="text">
+    <string>Histrograma</string>
+   </property>
+  </action>
+  <action name="actionSegmento_2">
+   <property name="text">
+    <string>Segmento</string>
+   </property>
+  </action>
+  <action name="actionVer_historial">
+   <property name="text">
+    <string>ver historial</string>
    </property>
   </action>
  </widget>

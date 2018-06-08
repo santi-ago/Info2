@@ -47,7 +47,7 @@ def histograma(canal_continuo): #Recibe el canal continuo, el nombre del registr
 def segmento(canal_continuo, valor_min, valor_max):
     tiempo=np.arange(valor_min,valor_max, dtype = 'float') #Crea un arreglo entre el valor minimo y el valor maximo de tipo flotante
     intervalo=canal_continuo[valor_min:valor_max]#Selecciona el intervalo usando los datos ingresador por el usuario
-    return tiempo, intervalo, valor_max, valor_min #Devuelve los valores necesarios para graficar el segmento fuera de la funcion.
+    return tiempo, intervalo #Devuelve los valores necesarios para graficar el segmento fuera de la funcion.
 
 #Funcion para calcular los valores necesarios para graficar el periodograma de Welch
 def periodograma(canal_continuo, ventanas):

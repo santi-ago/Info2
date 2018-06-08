@@ -23,10 +23,9 @@ class Periodograma(QDialog):
     def __init__(self, ruta):
         super(Periodograma, self).__init__()
         loadUi(ruta +'/gui/periodograma.ui', self)
-#        self.canal.SetValidator(QtGui.QIntValidator(1, 8))
-        self.graficar.clicked.connect(self.graficar_periodograma)
-        self.cargarRegistro.clicked.connect(self.seleccionar_registro)
-        self.canal.setValidator(QtGui.QIntValidator(0,8))
+        self.graficar.clicked.connect(self.graficar_periodograma)# se conecta con la funcion graficar_periodograma
+        self.cargarRegistro.clicked.connect(self.seleccionar_registro)# se conecta con la funcion seleccionar registro
+        self.canal.setValidator(QtGui.QIntValidator(0,8))# valida que el canal sea solo numero y este en ese rango
         self.ventanas.setValidator(QtGui.QIntValidator())
         validar_cedula = QtGui.QIntValidator()# valida que la cedula se solo numeros
         validar_cedula.setBottom(0)# asigna el valor minimo que puede tomar la cedula
@@ -35,19 +34,21 @@ class Periodograma(QDialog):
         self.__ruta_raiz = ruta
         self.__registro = []
         self.__datos=[]
-        self.guardar.clicked.connect(self.guardar_datos)
+        self.guardar.clicked.connect(self.guardar_datos)# se conecta con la funcion guardar registro
         # a figure instance to plot on
-        self.figure = Figure()
+        self.figure = Figure()#
         # this is the Canvas Widget that displays the `figure`
         # it takes the `figure` instance as a parameter to __init__
         self.canvas = FigureCanvas(self.figure)
         self.plano.addWidget(self.canvas)
         self.show()
+    #concta ruta con l,a base de datos para guardar los datos graficados 
     def guardar_datos(self):
         conn = db.conectar(self.__ruta_raiz)
         cedula = self.Cedula.text()
+        #valida que no vaya haber ningun dato vacio al momento de guardar
         if self.__registro== [] or self.__ruta =='' or self.canal.text()=='' or self.ventanas.text()=='' or self.Cedula.text()=='':
-            QMessageBox.about(self, 'Alerta', 'Faltan datos.')
+            QMessageBox.about(self, 'Alerta', 'Faltan datos.')#  crea una ventana emergente
         else:
             existe=db.verificar_paciente(conn, int(cedula))
             if existe==True:
@@ -56,10 +57,12 @@ class Periodograma(QDialog):
                 self.__datos.append(periodo) #agrega los resultados a una lista
                 self.__datos.append(frecuencias)
                 data = np.array(self.__datos) #Vuelve la lista en un array de numpy
-                db.addGrafica(conn, cedula, 'Periodograma', self.fecha.text(), data)
+                db.addGrafica(conn, cedula, 'Periodograma', self.fecha.text(), data)# mete los datos con los que se hace la grafica a la base de datos de resultados
+                #ventana emergente para pregunrae si desea graficar otro registro
                 buttonReply = QMessageBox.question(self, 'Alerta', "Desea graficar otro registro?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-                conn.close()
+                conn.close()#cierra la base de datos
                 if buttonReply == QMessageBox.Yes:
+                    # limpia todos los datos para poder ingresar otro usuario
                      self.__registro== []
                      self.canal.setText('')
                      self.ventanas.setText('')
@@ -74,15 +77,16 @@ class Periodograma(QDialog):
                  QMessageBox.about(self, 'Alerta', 'El paciente no existe ,debe ingresar.')
                 
                 
-        
+     # selecciona la ruta y carga el registro   
     def seleccionar_registro(self):
         self.__ruta = QFileDialog.getOpenFileName(self, 'Open file')[0]
         self.__ruta.replace('/', '//')
         self.__registro = gf.seleccion_registro(self.__ruta)
 #        file = sio.loadmat(self.__ruta) #Carga el archivo seleccionado por el usuario
 #        self.__registro = file['data']
+    # grafica el periodograma de un canal seleccionado del registro
     def graficar_periodograma(self):
-        canal_seleccionado = gf.seleccion_canal(self.__registro, int(self.canal.text()))
+        canal_seleccionado = gf.seleccion_canal(self.__registro, int(self.canal.text()))# aigna a una variable la selccion canal de la libreria graficas
         periodo, frecuencias = gf.periodograma(canal_seleccionado, int(self.ventanas.text()))
         # create an axis
         ax = self.figure.add_subplot(111)
@@ -102,8 +106,8 @@ class Correlacion(QDialog):
         super(Correlacion, self).__init__()
         loadUi(ruta +'/gui/correlacion.ui', self)
         self.__ruta_raiz = ruta
-        self.graficar.clicked.connect(self.graficar_correlacion)
-        self.cargarRegistro.clicked.connect(self.seleccionar_registro)
+        self.graficar.clicked.connect(self.graficar_correlacion)# se conecta con la funcion graficar_correlacion
+        self.cargarRegistro.clicked.connect(self.seleccionar_registro)# se conecta con la funcion seleccionar_registro
         self.canal_1.setValidator(QtGui.QIntValidator(0,8))
         self.canal_2.setValidator(QtGui.QIntValidator(0,8))
         validar_cedula = QtGui.QIntValidator()# valida que la cedula se solo numeros
@@ -123,12 +127,12 @@ class Correlacion(QDialog):
          if self.__registro== [] or self.__ruta =='' or self.canal_1.text()=='' or self.canal_2.text()=='' or self.cedula.text()=='':
             QMessageBox.about(self, 'Alerta', 'Faltan datos.')
          else:
-             canal1 = gf.seleccion_canal(self.__registro, int(self.canal_1.text()))
+             canal1 = gf.seleccion_canal(self.__registro, int(self.canal_1.text()))# aigna a una variable la selccion canal de la libreria graficas
              canal2 = gf.seleccion_canal(self.__registro, int(self.canal_2.text()))
-             datos = gf.correlacion(self.__registro, canal1, canal2)
+             datos = gf.correlacion(self.__registro, canal1, canal2)# guarda los datos de la correlacion entre los dos canles eljidos
              cedula = self.cedula.text()
-             conn = db.conectar(self.__ruta_raiz)
-             db.addGrafica(conn, cedula, 'Correlacion', self.fecha.text(), datos)
+             conn = db.conectar(self.__ruta_raiz)#conecta la base de datos con la ruta
+             db.addGrafica(conn, cedula, 'Correlacion', self.fecha.text(), datos) #mete los datos con los que se hace la grafica a la base de datos de resultados
              conn.close()
              
              buttonReply = QMessageBox.question(self, 'Alerta', "Desea graficar otro registro?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -149,6 +153,7 @@ class Correlacion(QDialog):
         self.__ruta = QFileDialog.getOpenFileName(self, 'Open file')[0]
         self.__ruta.replace('/', '//')
         self.__registro = gf.seleccion_registro(self.__ruta)
+    #grafica la correlacion entre dos canles de un registro
     def graficar_correlacion(self):
         canal1 = gf.seleccion_canal(self.__registro, int(self.canal_1.text()))
         canal2 = gf.seleccion_canal(self.__registro, int(self.canal_2.text()))
@@ -168,8 +173,8 @@ class Histograma(QDialog):
         super(Histograma, self).__init__()
         loadUi(ruta +'/gui/histograma.ui', self)
         self.__ruta_raiz = ruta
-        self.graficar.clicked.connect(self.graficar_histograma)
-        self.cargarRegistro.clicked.connect(self.seleccionar_registro)
+        self.graficar.clicked.connect(self.graficar_histograma)# se conecta con la funcion graficar_histograma
+        self.cargarRegistro.clicked.connect(self.seleccionar_registro)# se conecta con la funcion seleccionar_registro
         self.canal.setValidator(QtGui.QIntValidator(0,8))
         validar_cedula = QtGui.QIntValidator()# valida que la cedula se solo numeros
         validar_cedula.setBottom(0)# asigna el valor minimo que puede tomar la cedula
@@ -209,6 +214,7 @@ class Histograma(QDialog):
         self.__ruta = QFileDialog.getOpenFileName(self, 'Open file')[0]
         self.__ruta.replace('/', '//')
         self.__registro = gf.seleccion_registro(self.__ruta)
+    #grafica el histograma de un canal de un registro
     def graficar_histograma(self):
 
         canal = gf.seleccion_canal(self.__registro, int(self.canal.text()))
@@ -229,7 +235,7 @@ class Segmento(QDialog):
         super(Segmento, self).__init__()
         loadUi(ruta +'/gui/segmento.ui', self)
         self.__ruta_raiz = ruta
-        self.graficar.clicked.connect(self.graficar_segmento)
+        self.graficar.clicked.connect(self.graficar_segmento)# se conecta con la funcion graficar_segmento
         self.cargarRegistro.clicked.connect(self.seleccionar_registro)
         self.__ruta = ''
         self.__registro = []
@@ -237,7 +243,7 @@ class Segmento(QDialog):
         self.figure = Figure()
         self.datos=[]
         self.guardar.clicked.connect(self.guardar_datos)
-        self.intervalo_1.setValidator(QtGui.QIntValidator())
+        self.intervalo_1.setValidator(QtGui.QIntValidator())# valida que esolo
         self.intervalo_2.setValidator(QtGui.QIntValidator())
         self.canal.setValidator(QtGui.QIntValidator(0,8))
         validar_cedula = QtGui.QIntValidator()# valida que la cedula se solo numeros

@@ -38,8 +38,11 @@ class Menu(QMainWindow):
         self.actionCrear_paciente.triggered.connect(self.CrearPaciente)
         self.actionEliminar_paciente.triggered.connect(self.EliminarPaciente)
         self.actionVer_historial.triggered.connect(self.consultar)
-
+        self.Salir.triggered.connect(self.cerrarSistema)
       
+    def cerrarSistema(self):
+        self.destroy()
+        
     def actualizar(self):
         conn = db.conectar(main_route)
         cursor = conn.cursor()

@@ -165,6 +165,9 @@ registro</string>
    <property name="displayFormat">
     <string>yyyy-MM-dd</string>
    </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLineEdit" name="cedula">
    <property name="geometry">

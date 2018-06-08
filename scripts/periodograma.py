@@ -73,6 +73,7 @@ class Periodograma(QDialog):
                      
                 else:
                       QMessageBox.about(self, 'Alerta', 'Grafica guardada.')
+                      self.destroy()
             elif existe==False:
                  QMessageBox.about(self, 'Alerta', 'El paciente no existe ,debe ingresar.')
                 
@@ -146,6 +147,7 @@ class Correlacion(QDialog):
                  self.canvas.draw()
              else:
                  QMessageBox.about(self, 'Alerta', 'Grafica guardada.')
+                 self.destroy()
 
                 
         
@@ -209,6 +211,7 @@ class Histograma(QDialog):
                  self.canvas.draw()
              else:
                  QMessageBox.about(self, 'Alerta', 'Grafica guardada.')
+                 self.destroy()
     
     def seleccionar_registro(self):
         self.__ruta = QFileDialog.getOpenFileName(self, 'Open file')[0]
@@ -281,6 +284,7 @@ class Segmento(QDialog):
                  self.canvas.draw()
             else:
                  QMessageBox.about(self, 'Alerta', 'Grafica guardada.')
+                 self.destroy()
             
         
     def seleccionar_registro(self):
@@ -337,11 +341,10 @@ class PacienteGUI(QDialog):
             self.Cedula.setText('')
             self.Nombre.setText('')
             self.Apellidos.setText('')
-            self.Birth.setText('')
-            
             
         else:
             QMessageBox.about(self, 'Alerta', 'Paciente ingresado o actualizado.')
+            self.destroy()
  
 
 
@@ -372,6 +375,7 @@ class EliminarPaciente(QDialog):
                 
                 else:
                     QMessageBox.about(self, 'Alerta', 'Paciente eliminado.')
+                    self.destroy()
             elif existe == False:
                 QMessageBox.about(self, 'Alerta', 'Paciente no existe.')
 class ConsultarH(QDialog):
@@ -482,7 +486,3 @@ class ConsultarH(QDialog):
                 QMessageBox.about(self, 'Alerta', 'Paciente no existe.')
 
 
-#
-#app = QApplication(sys.argv)
-#widget = ConsultarH("C:\\Users\\Aleja Toro Betancur\\Documents\\informatica-laura\\proyecto")
-#widget.show()

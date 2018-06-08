@@ -164,7 +164,7 @@
     <addaction name="separator"/>
     <addaction name="menuGraficas"/>
     <addaction name="separator"/>
-    <addaction name="actionSalir_2"/>
+    <addaction name="Salir"/>
    </widget>
    <widget class="QMenu" name="menuConsultas">
     <property name="title">
@@ -274,6 +274,11 @@
   <action name="actionVer_historial">
    <property name="text">
     <string>ver historial</string>
+   </property>
+  </action>
+  <action name="Salir">
+   <property name="text">
+    <string>Salir</string>
    </property>
   </action>
  </widget>
